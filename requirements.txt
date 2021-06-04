@@ -1,0 +1,7 @@
+dnspython
+environs
+flask
+gunicorn
+psycopg2-binary==2.8.6
+pyTelegramBotAPI
+sqlalchemy==1.4.15

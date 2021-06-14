@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="stylesheet.css"/>
+  </head>
+  <body>
+    <div class="center">
+    <div>
+      <section class="content">
+      <input type="text" id="myText" value="">
+      <button onclick="myFunction()" class="input">Try it</button>
+      </section>
+      <table id="Table", border="2">
+        <thead>
+          <tr>
+            <th>id_cartridge</th>
+            <th>state</th>
+            <th>last_update</th>
+          </tr>
+        </thead>
+        <tbody id="tbody">
+        </tbody>
+      </table>
+    </div>
+    </div>
+    <script type="text/javascript">
+      var request = new XMLHttpRequest()
+      function myFunction() {
+        document.getElementById("tbody").innerHTML = ''
+        var id_cartridge = document.getElementById("myText").value;
+        if (id_cartridge === "") {
+          request.open('GET', 'http://127.0.0.1:5000/cartridges', true)
+          request.send()
+        }
+        else {
+          request.open('GET', 'http://127.0.0.1:5000/cartridges/' + id_cartridge, true)
+          request.send()
+        }
+      }
+
+      request.onload = function () {
+        var data = JSON.parse(this.response)
+
+        if (request.status >= 200 && request.status < 400) {
+
+          var tbody = document.getElementById("tbody");
+
+          data.forEach((cartridge) => {
+            tr = document.createElement("tr");
+            td1 = document.createElement("td");
+            td1.innerHTML = cartridge.id_cartridge;
+            td2 = document.createElement("td");
+            td2.innerHTML = cartridge.state;
+            td3 = document.createElement("td");
+            td3.innerHTML = cartridge.last_update;
+            tr.appendChild(td1);
+            tr.appendChild(td2);
+            tr.appendChild(td3);
+            tbody.appendChild(tr);
+            console.log(cartridge.id_cartridge)
+            console.log(cartridge.state)
+          })
+        }
+      }
+    </script>
+  </body>
+</html>

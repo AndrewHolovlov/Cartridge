@@ -1,5 +1,5 @@
-from database import session
-from models import User
+from database.database import session
+from database.models import User
 from states import *
 
 
@@ -9,6 +9,7 @@ states = {
     'dispense_cartridge': dispense_cartridge,
     'take_to_refueling': take_to_refueling,
     'take_from_refueling': take_from_refueling,
+    'give_cartridge_for_refills': give_cartridge_for_refills,
     'where_is_my_cartridge': where_is_my_cartridge,
 }
 

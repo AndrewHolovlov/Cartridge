@@ -5,3 +5,9 @@ gunicorn
 psycopg2-binary==2.8.6
 pyTelegramBotAPI
 sqlalchemy==1.4.15
+flask-restful
+flask-cors
+flask_admin
+Flask-SQLAlchemy
+Flask-BasicAuth
+flask_login

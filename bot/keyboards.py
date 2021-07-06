@@ -29,7 +29,7 @@ def get_inline_cartridge_keyboard(cartridges, state):
     buttons = []
     for cartridge in cartridges:
         buttons.append(InlineKeyboardButton(
-            f'{cartridge.id_cartridge} {cartridge.types}',
+            f'{cartridge.id_cartridge} {cartridge.note}',
             callback_data=f'{state}_{cartridge.id_cartridge}')
         )
 

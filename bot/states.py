@@ -1,3 +1,5 @@
+from requests import request
+
 from bot.bot_object import bot
 from database.database import session
 from database.models import Cartridge
@@ -105,7 +107,7 @@ def where_is_my_cartridge(message, user, is_entry=False):
         if message.text == 'Главное меню':
             return True, 'main_menu_state'
         else:
-            cartridges = session.query(Cartridge).filter_by(id_cartridge=message.text).all()
+            cartridges = session.query(Cartridge).filter(Cartridge.id_cartridge.like(f'%{message.text}%')).all()
             if len(cartridges) == 0:
                 bot.send_message(message.chat.id, 'Такого картриджа нет в базе')
             else:

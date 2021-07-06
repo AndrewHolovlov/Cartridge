@@ -1,3 +1,5 @@
+from time import sleep
+
 from bot_object import bot
 from database.database import session
 from keyboards import *
@@ -5,6 +7,7 @@ from database.models import Cartridge, User
 from state_handler import get_state_and_process
 from enums import State, StateUser
 from config import ADMINS
+from config import BOT_TOKEN
 
 
 @bot.message_handler(commands=['start'])
@@ -179,5 +182,20 @@ def callback_inline(call):
     bot.delete_message(call.message.chat.id, call.message.message_id)
 
 
+def start_bot_handler():
+    bot.remove_webhook()
+    sleep(2)
+    bot.set_webhook(url=f"31.134.120.154:3380/{BOT_TOKEN}")
+    # bot.polling(none_stop=True)
+
+
+# def start_poling():
+#     while True:
+#         try:
+#             bot.polling(none_stop=True)
+#         except Exception as e:
+#             print(f'Error poling: {e}')
+
+
 if __name__ == '__main__':
-    bot.polling(none_stop=True)
+    start_bot_handler()

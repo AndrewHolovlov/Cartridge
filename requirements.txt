@@ -1,6 +1,6 @@
 dnspython
-environs
-flask
+environs~=9.3.2
+flask~=2.0.1
 gunicorn
 psycopg2-binary==2.8.6
 pyTelegramBotAPI
@@ -11,3 +11,5 @@ flask_admin
 Flask-SQLAlchemy
 Flask-BasicAuth
 flask_login
+Werkzeug~=2.0.1
+requests

@@ -1,6 +1,10 @@
-from flask import Flask, Response
+from time import sleep
+import os
+
+from flask import Flask, Response, request
 from flask_cors import CORS
 from flask_restful import Api, Resource
+from telebot import types
 
 from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
@@ -12,7 +16,8 @@ from werkzeug.utils import redirect
 from bot.enums import StateUser
 from database.database import session
 from database.models import User, Cartridge
-from config import DB_USER, DB_PASSWORD
+from config import DB_USER, DB_PASSWORD, BOT_TOKEN
+from bot.bot_object import bot
 
 app = Flask(__name__, static_url_path='')
 api = Api(app)
@@ -65,6 +70,19 @@ class CartridgeView(Resource):
         return cartridges, 200
 
 
+@app.route('/' + BOT_TOKEN, methods=['POST'])
+def get_message():
+    bot.process_new_updates([types.Update.de_json(request.stream.read().decode('utf-8'))])
+    return 'OK', 200
+
+
+@app.route('/')
+def webhook():
+    bot.remove_webhook()
+    bot.set_webhook(url=f"31.134.120.154:3380/{BOT_TOKEN}")
+    return '!', 200
+
+
 api.add_resource(CartridgeView, '/cartridges', '/cartridges/<int:id>')
 
 
@@ -82,5 +100,13 @@ def serializer_cartridges(cartridges):
     return list_cartridges
 
 
-if __name__ == '__main__':
-    app.run(debug=True)
+if __name__ == "__main__":
+    if bot.get_webhook_info().url != f"https://31.134.120.154:3380/{BOT_TOKEN}":
+        bot.remove_webhook()
+        sleep(2)
+        bot.set_webhook(url=f'https://31.134.120.154:3380/{BOT_TOKEN}')
+
+    app.run(host="31.134.120.154", port=int(os.environ.get('PORT', 3380)))
+
+
+app.run()
